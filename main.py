@@ -3,7 +3,15 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, Update,
                       InlineKeyboardButton, InlineKeyboardMarkup)
 from telegram.ext import (Application, CallbackQueryHandler, CommandHandler,
                           ContextTypes, ConversationHandler, MessageHandler, filters)
+from dotenv import load_dotenv
+import os
 
+# .env faylni yuklash
+load_dotenv()
+
+# O'zgaruvchilarni o'qish
+bot_token = os.getenv("BOT_TOKEN")
+debug_mode = os.getenv("DEBUG")
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -12,8 +20,6 @@ logger = logging.getLogger(__name__)
 
 # Define states
 CAR_TYPE, CAR_COLOR, CAR_MILEAGE_DECISION, CAR_MILEAGE, PHOTO, SUMMARY = range(6)
-
-token = '7657778630:AAEeaq77KAu7PYZmgTurLt7F8MA17Z4sEfY'
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Starts the conversation and asks the user about their preferred car type."""
@@ -176,7 +182,7 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 
 def main() -> None:
     """Run the bot."""
-    application = Application.builder().token(token).build()
+    application = Application.builder().token(bot_token).build()
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
